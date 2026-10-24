@@ -9,7 +9,7 @@ English | [中文](README.zh.md)
 
 ## Summary
 
-The `fs/` group gives agents durable, policy-governed access to files: the `ctx.fs` service contract in `fs/`, the host-filesystem and sandbox-enforcing backends in `fs-local/` and `fs-sandbox/`, the read-before-edit policy in `fs-observation-policy/`, and the model-facing tools in `tool-fs/` (`read`, `read_image`, `write`, `edit`) and `tool-fs-search/` (`glob`, `grep`). A deployment mounts one backend, loads the policy for freshness-guarded mutations, and registers the tool packages the model should see; backends swap without touching the tools or the policy. File I/O takes no timeout by design: a deadline would kill work the OS still finishes, so cancellation is a best-effort signal at syscall boundaries.
+The `fs/` group gives agents durable, policy-governed access to files: the `ctx.fs` service contract in `fs/`, the host-filesystem and sandbox-enforcing backends in `fs-local/` and `fs-sandbox/`, the read-before-edit policy in `fs-observation-policy/`, and the model-facing tools in `tool-fs/` (`read`, `read_image`, `write`, `edit`), `tool-fs-search/` (`glob`, `grep`), and `tool-image-text/` (`read_image_text`). A deployment mounts one backend, loads the policy for freshness-guarded mutations, and registers the tool packages the model should see; backends swap without touching the tools or the policy. File I/O takes no timeout by design: a deadline would kill work the OS still finishes, so cancellation is a best-effort signal at syscall boundaries.
 
 ## Table of Contents
 
@@ -22,7 +22,7 @@ The `fs/` group gives agents durable, policy-governed access to files: the `ctx.
 <a id="packages"></a>
 ## Packages
 
-Seven packages play the filesystem roles; the subsystem reference owns the exhaustive contracts and the error taxonomy.
+Eight packages play the filesystem roles; the subsystem reference owns the exhaustive contracts and the error taxonomy.
 
 | Package | Role | ctx key |
 |---|---|---|
@@ -33,6 +33,7 @@ Seven packages play the filesystem roles; the subsystem reference owns the exhau
 | [`tool-fs/`](tool-fs/README.md) | Model-facing `read`, `read_image`, `write`, and `edit` tools plus their executor | registers on `ctx.tools` |
 | [`tool-fs-search/`](tool-fs-search/README.md) | Model-facing `glob` and `grep` discovery tools backed by the packaged ripgrep binary | registers on `ctx.tools` |
 | [`tool-str-replace-editor/`](tool-str-replace-editor/README.md) | Standalone `str_replace_editor` tool: `view`, `create`, `str_replace`, and `insert` over `ctx.fs` | registers on `ctx.tools` |
+| [`tool-image-text/`](tool-image-text/README.md) | `read_image_text` tool: extracts text from an image through a separately configured vision-capable route | registers on `ctx.tools` |
 
 The policy is a plugin, not a service the tools inject: removing it leaves the bare provider's unconditional mutation behavior instead of breaking the tools. The mode fence in `fs-sandbox` and the read-before-edit gate compose. `tool-fs-search` deliberately does not extend the provider contract — search is a process-backed ripgrep workflow, so filesystem backends stay free of a universal search API.
 

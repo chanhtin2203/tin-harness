@@ -1,0 +1,94 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write packages/fs/tool-image-text/README.md
+/:
+  en: c61527f94dac401a
+  zh: 198d56e5bee45ddc
+/deepseek-ai-dsh-tool-image-text:
+  en: cb1b9a58d45183a6
+  zh: a05de5bf859369ef
+/deepseek-ai-dsh-tool-image-text/summary:
+  en: cdcf96319af6bf2c
+  zh: 17de4af30b3ce981
+/deepseek-ai-dsh-tool-image-text/table-of-contents:
+  en: d152484eb41ac6b4
+  zh: 09388d293f9be9cb
+/deepseek-ai-dsh-tool-image-text/use-this-package:
+  en: b9a2940217738866
+  zh: f11dd09f23ab2685
+/deepseek-ai-dsh-tool-image-text/use-this-package/when-to-choose-it:
+  en: 42c9d139f11c098a
+  zh: f3e9fe6e8e8b1367
+/deepseek-ai-dsh-tool-image-text/use-this-package/minimal-composition:
+  en: ba74f03f17455089
+  zh: 079a7b8bcfd62b78
+/deepseek-ai-dsh-tool-image-text/use-this-package/configuration:
+  en: e4c29dcd551b7fc1
+  zh: 506ffddaaaae6906
+/deepseek-ai-dsh-tool-image-text/use-this-package/behavior-and-failures:
+  en: 20e0196233cd5274
+  zh: 90f5786aa1c1f42d
+/deepseek-ai-dsh-tool-image-text/understand-the-implementation:
+  en: b21dba4735585991
+  zh: d353e470d89f8521
+/deepseek-ai-dsh-tool-image-text/understand-the-implementation/source-map:
+  en: 76567ada0ae9a81a
+  zh: dbbd22b19f25c3da
+/deepseek-ai-dsh-tool-image-text/further-exploration:
+  en: 2eff9388bc7d2eb9
+  zh: 72d9a7632786f53e
+/deepseek-ai-dsh-tool-image-text/model-experience:
+  en: 215e7ba838619b7b
+  zh: a311da3843709f90
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-tool-schema:
+  en: 1699a20a78670b5a
+  zh: d667bb8fa0fbd177
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-tool-schema/what-the-model-sees:
+  en: 3ee5408e59a22079
+  zh: b4c10ad9b008dd50
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-tool-schema/what-the-model-sees/read-image-text-arguments:
+  en: 06feaae2a74ab260
+  zh: f3e9516effd794af
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-tool-schema/token-effect:
+  en: 20779aca9537ce03
+  zh: 42b70f6ca110e901
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-tool-schema/kv-cache-effect:
+  en: 8be084c588b540bf
+  zh: 0df3efb459d86c01
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-result-text:
+  en: a946a44fe151a964
+  zh: 8589743caf44b27d
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-result-text/what-the-model-sees:
+  en: c8c8187d52e24794
+  zh: efbdc7322837d1be
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-result-text/token-effect:
+  en: 0d6af1c0eccd0e8c
+  zh: 8c900593b5fcd519
+/deepseek-ai-dsh-tool-image-text/model-experience/read-image-text-result-text/kv-cache-effect:
+  en: 138099f503f1e6a6
+  zh: 35773c65e9844527
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt:
+  en: f7b259348f9a3e31
+  zh: 7210136818efc001
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt/what-the-model-sees:
+  en: 50a3ebc89ee29750
+  zh: d44d7c37ea110af9
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt/what-the-model-sees/auxiliary-system-prompt:
+  en: 48a8e26fdd0b91c2
+  zh: 0eca186990e14ae3
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt/what-the-model-sees/default-instruction:
+  en: cb41fad750fbfe92
+  zh: 79a3c8d55c23f62e
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt/token-effect:
+  en: 1424e88ad221bcf6
+  zh: 864f9122f64e37d8
+/deepseek-ai-dsh-tool-image-text/model-experience/vision-request-system-prompt/kv-cache-effect:
+  en: 1b9ed9aafae6f3ac
+  zh: a592d1432f6e68ad
+/deepseek-ai-dsh-tool-image-text/known-limitations-and-deferred-work:
+  en: d65393ca46bc11e5
+  zh: 52e2e7e3c9689220
+/deepseek-ai-dsh-tool-image-text/known-limitations-and-deferred-work/dev-note:
+  en: e67f633dc6fe7773
+  zh: 6acef3b2d1929a55
