@@ -308,6 +308,12 @@
     - id: skill
       name: '@deepseek-ai/dsh-skill'
 
+    # pstack workflows ship with the harness: the vendored provider registers
+    # Lauren Tan's skills as bundled entries, so every profile and the desktop
+    # app expose them without a user-level skills directory.
+    - id: skill-pstack
+      name: '@deepseek-ai/dsh-skill-pstack'
+
     - id: skill-filesystem
       name: '@deepseek-ai/dsh-skill-filesystem'
 
