@@ -314,7 +314,8 @@ describe('read_image_text extraction', () => {
     const { ctx } = await setup({ adapter })
     const result = await call(ctx, { file_path: 'red.png' })
     if (result.isError) throw new Error(`expected success: ${textOf(result)}`)
-    expect(result.value.text).toBe('alpha beta')
+    const value = result.value as { text?: string } | null
+    expect(value?.text).toBe('alpha beta')
   })
 
   it('presents a read card for the pending call and renders only its text', async () => {
