@@ -31,6 +31,7 @@ This table connects model-visible tool names to the plugin package and service s
 | `@deepseek-ai/dsh-tool-str-replace-editor` | `str_replace_editor` | `ctx.tools`, `ctx.fs` | `tool/call`, `fs/observed after view presence/absence, edit absence, or successful mutation`, `tool/result` | - | Standalone view/create/unique literal replace/line insert tool over the filesystem seam; it composes with any shell or terminal API. |
 | `@deepseek-ai/dsh-tool-fs` | `edit`, `read`, `read_image`, `write` | `ctx.workingDirectory`, `ctx.tools`, `ctx.fs`, `ctx.systemPrompt`, `ctx.attachments (image-tool registration)`, `ctx.llm + an image-capable route (image-tool execution)` | `tool/call`, `fs/write-intent or fs/edit-intent for mutations`, `fs/observed after read presence/absence or successful file operation`, `durable attachment (read_image)`, `tool/result` | - | The read-before-write/edit policy is added by `@deepseek-ai/dsh-fs-observation-policy` (an `fs/*` event-gate plugin, no schema change); a deployment that loads these tools is expected to also load it. The image tool is not registered without `ctx.attachments`; its schema is route-independent, and execution refuses unless the exact routed model declares image input. |
 | `@deepseek-ai/dsh-tool-fs-search` | `glob`, `grep` | `ctx.workingDirectory`, `ctx.tools`, `ctx.subprocess`, `ctx.systemPrompt` | `tool/call`, `tool/result` | - | glob and grep are unconditional discovery tools that spawn the packaged ripgrep binary (`@vscode/ripgrep`) through ctx.subprocess as ordinary foreground calls (never background jobs) — no host `rg` install and no shell layer. The catalog uses `sampleOverCapGlobResults: true`; deployments must choose that behavior explicitly. Capped results save the complete formatted list through the optional ctx.spillStore backend; returned locators are follow-up-readable/searchable when the backend exposes local paths in co-located deployments. |
+| `@deepseek-ai/dsh-tool-image-text` | `read_image_text` | `ctx.tools`, `ctx.fs`, `ctx.llm`, `ctx.attachments at execution time`, `a configured vision-capable route`, `ctx.workingDirectory for session-relative paths` | `tool/call`, `durable attachment`, `fs/observed after read presence/absence`, `tool/result`, `auxiliary model request` | - | read_image_text sends one image to a separately configured vision-capable route, so a caller whose own model cannot receive images still reads one; deployments must name the provider, model, output-token cap, and deadline, and a route that does not declare image input is refused at execution. |
 | `@deepseek-ai/dsh-tool-terminal` | `terminal_close`, `terminal_list`, `terminal_open`, `terminal_read`, `terminal_send`, `terminal_signal` | `ctx.workingDirectory`, `ctx.tools`, `ctx.terminals`, `ctx.systemPrompt`, `ctx.jobs at call time for run_in_background` | `tool/call`, `tool/result` | - | The six terminal tools are opt-in and complement one-shot shell/filesystem tools. `terminal_send(run_in_background: true)` registers with `ctx.jobs`; TUI, named key sequences, BEL, resize, auto-start, and cross-agent sharing are absent from the schema. |
 | `@deepseek-ai/dsh-tool-goal` | `create_goal`, `get_goal`, `update_goal` | `ctx.tools`, `ctx.agents`, `ctx.goals`, `ctx.systemPrompt`, `a calling Agent in an authorized open turn` | `tool/call`, `goal/change for mutations`, `tool/result` | - | create, edit, pause, and resume require direct-human root authority; complete and blocked also accept the exact current goal round. The default blocked lower bound is three admitted rounds. |
 | `@deepseek-ai/dsh-tool-schedule` | `schedule_create`, `schedule_delete`, `schedule_list`, `schedule_update` | `ctx.tools`, `ctx.schedule` | `tool/call`, `Schedule storage domain create, update, or delete`, `tool/result` | - | A preset or Agent scope mounts this package; the preset decides which agents receive the four management tools. Each call acts on the calling Agent's Session. Accepts after_seconds, explicit absolute at, bounded fixed-rate every_seconds, daily and weekly local times in an explicit IANA zone, and cron as a five-field expression. Management uses the Host storage domain; due messages resume the original Session. |
@@ -1170,6 +1171,33 @@ Search file contents with a ripgrep regular expression. Returns matching lines w
 Source: [`packages/fs/tool-fs-search/src/index.ts`](../packages/fs/tool-fs-search/src/index.ts)
 
 glob and grep are unconditional discovery tools that spawn the packaged ripgrep binary (`@vscode/ripgrep`) through ctx.subprocess as ordinary foreground calls (never background jobs) — no host `rg` install and no shell layer. The catalog uses `sampleOverCapGlobResults: true`; deployments must choose that behavior explicitly. Capped results save the complete formatted list through the optional ctx.spillStore backend; returned locators are follow-up-readable/searchable when the backend exposes local paths in co-located deployments.
+
+<a id="deepseek-aidsh-tool-image-text"></a>
+
+## `@deepseek-ai/dsh-tool-image-text`
+
+### `read_image_text`
+
+Read a PNG/JPEG/WebP/GIF file and return the text it contains as plain text. Use this when images cannot be attached to the current model. Do not install image libraries or create thumbnails to inspect an image.
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "file_path": {
+      "type": "string",
+      "description": "Path to the image file, resolved by the filesystem backend."
+    }
+  },
+  "required": [
+    "file_path"
+  ]
+}
+```
+
+Source: [`packages/fs/tool-image-text/src/read-image-text.ts`](../packages/fs/tool-image-text/src/read-image-text.ts)
+
+read_image_text sends one image to a separately configured vision-capable route, so a caller whose own model cannot receive images still reads one; deployments must name the provider, model, output-token cap, and deadline, and a route that does not declare image input is refused at execution.
 
 <a id="deepseek-aidsh-tool-terminal"></a>
 

@@ -3826,6 +3826,34 @@ export interface Config {
 ```
 <!-- END GENERATED config-catalog:@deepseek-ai/dsh-tool-goal -->
 
+<!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-tool-image-text -->
+<a id="deepseek-aidsh-tool-image-text"></a>
+
+## `@deepseek-ai/dsh-tool-image-text`
+
+- `inject`: `tools` · `fs` · `llm`
+- `source`: [`packages/fs/tool-image-text/src/index.ts:22`](../packages/fs/tool-image-text/src/index.ts)
+
+```ts config-catalog
+/** Plugin configuration; every route value is an explicit deployment choice. */
+export type Config = ImageTextConfig
+
+/** Deployment-provided route selection before resolution. */
+export interface ImageTextConfig {
+  /** Registered provider route that owns the vision model; required, with no default. */
+  provider: string
+  /** Exact vision model id passed to that route; required, with no default. */
+  model: string
+  /** Output-token cap for one extraction request. */
+  maxOutputTokens: number
+  /** End-to-end extraction deadline in milliseconds. */
+  timeoutMs: number
+  /** Instruction sent beside the image; defaults to {@link IMAGE_TEXT_PROMPT}. */
+  prompt?: string
+}
+```
+<!-- END GENERATED config-catalog:@deepseek-ai/dsh-tool-image-text -->
+
 <!-- BEGIN GENERATED config-catalog:@deepseek-ai/dsh-tool-jobs -->
 <a id="deepseek-aidsh-tool-jobs"></a>
 

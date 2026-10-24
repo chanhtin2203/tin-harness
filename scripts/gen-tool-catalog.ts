@@ -52,6 +52,7 @@ import * as ToolCordis from '@deepseek-ai/dsh-tool-cordis'
 import * as ToolPresent from '@deepseek-ai/dsh-tool-present'
 import * as ToolFs from '@deepseek-ai/dsh-tool-fs'
 import * as ToolFsSearch from '@deepseek-ai/dsh-tool-fs-search'
+import * as ToolImageText from '@deepseek-ai/dsh-tool-image-text'
 import * as ToolStrReplaceEditor from '@deepseek-ai/dsh-tool-str-replace-editor'
 import TerminalSessionService from '@deepseek-ai/dsh-terminal'
 import * as ToolPty from '@deepseek-ai/dsh-tool-terminal'
@@ -412,6 +413,21 @@ const TOOL_PACKAGES: ToolPackage[] = [
     },
     note:
       'glob and grep are unconditional discovery tools that spawn the packaged ripgrep binary (`@vscode/ripgrep`) through ctx.subprocess as ordinary foreground calls (never background jobs) — no host `rg` install and no shell layer. The catalog uses `sampleOverCapGlobResults: true`; deployments must choose that behavior explicitly. Capped results save the complete formatted list through the optional ctx.spillStore backend; returned locators are follow-up-readable/searchable when the backend exposes local paths in co-located deployments.',
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-image-text',
+    dir: 'tool-image-text',
+    source: 'packages/fs/tool-image-text/src/read-image-text.ts',
+    requires: ['ctx.tools', 'ctx.fs', 'ctx.llm', 'ctx.attachments at execution time', 'a configured vision-capable route', 'ctx.workingDirectory for session-relative paths'],
+    writes: ['tool/call', 'durable attachment', 'fs/observed after read presence/absence', 'tool/result', 'auxiliary model request'],
+    async mount(ctx) {
+      // Schema harvest never resolves the route or dispatches; the LLM runtime
+      // needs no adapter because registration touches no model.
+      await ctx.plugin(LlmRuntime)
+      await ctx.plugin(ToolImageText, { provider: 'catalog', model: 'catalog-vision', maxOutputTokens: 1, timeoutMs: 1 })
+    },
+    note:
+      'read_image_text sends one image to a separately configured vision-capable route, so a caller whose own model cannot receive images still reads one; deployments must name the provider, model, output-token cap, and deadline, and a route that does not declare image input is refused at execution.',
   },
   {
     pkg: '@deepseek-ai/dsh-tool-terminal',
